@@ -1,6 +1,9 @@
+import dayjs from 'dayjs';
+import { db } from '../database/db.js';
+import { ObjectId } from 'mongodb';
 import { quizzSchema } from "../schemas/quizzSchema.js";
 
-export default function postSchemaValidate(req, res, next) {
+function pollSchemaValidate(req, res, next) {
     const quizz = req.body;
 
     const validationQuizz = quizzSchema.validate(quizz, { abortEarly: false })
@@ -16,4 +19,20 @@ export default function postSchemaValidate(req, res, next) {
     res.locals.poll = quizz;
 
     next()
+}
+
+async function getPollChoices(req, res, next) {
+    const params = req.params
+
+    const findPoll = await db.collection('polls').findOne({ _id: ObjectId(params) })
+    if (!findPoll) {
+        return res.status(404).send("Enquete não existe!")
+    }
+
+    next()
+}
+
+export {
+    pollSchemaValidate,
+    getPollChoices
 }

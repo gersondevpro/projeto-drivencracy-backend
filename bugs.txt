@@ -1,0 +1,4 @@
+Preciso corrigir cadastro de datas para que a hora seja colocada mesmo o usuário colocando apenas o dia, ou preciso entender através da tutoria se, numa possível escolha do usuário, data e horário seriam obrigatórios de serem escolhidos juntos.
+Obs. Já está correto o cadastro sem o 'expireAt' para 30 dias de validade.
+
+Preciso entender se está certo o find com o ObjectId() no middleware do choice. Visto que se a enquete for colocada com mais de 24 caracteres ou menos de 24, ele trava a aplicação, e preciso salvar novamente qualquer arquivo para retornar a funcionar.
