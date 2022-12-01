@@ -5,15 +5,16 @@ import { validateDataSchema, choiceSchema } from "../schemas/choiceSchema.js";
 async function choiceSchemaValidate(req, res, next) {
     const { title, pollId } = req.body;
 
-    const validationChoice = choiceSchema.validate({ title, pollId });
+    const validationChoice = choiceSchema.validate({ pollId, title }, { abortEarly: false });
     if (validationChoice.error) {
         const mapError = validationChoice.error.details.map(e => e.message);
         return res.status(422).send(mapError);
     };
-
-    const findPoll = await db.collection('polls').findOne({ _id: ObjectId(pollId) });
-    
+        
+    const findPoll = await db.collection('polls').findOne({ _id: ObjectId(pollId) }); /* erro aqui */
+        
     if (!findPoll) {
+        
         return res.status(404).send("Enquete não existe!");
     };
 
@@ -32,7 +33,7 @@ async function choiceSchemaValidate(req, res, next) {
     next();
 };
 
-async function choiceVote (req, res, next) {
+async function choiceVote(req, res, next) {
     const vote = req.params
 
     const findChoice = await db.collection('choices').findOne({ _id: ObjectId(vote) })

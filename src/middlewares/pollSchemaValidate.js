@@ -32,7 +32,22 @@ async function getPollChoices(req, res, next) {
     next()
 }
 
+async function getPollResults(req, res, next) {
+
+    const result = req.params;
+
+    const findPoll = await db.collection('polls').findOne({ _id: ObjectId(result.id) })
+    if (!findPoll) {
+        return res.status(404).send("Enquete não existe!")
+    }
+
+    res.locals.findPoll = findPoll
+
+    next()
+}
+
 export {
     pollSchemaValidate,
-    getPollChoices
+    getPollChoices,
+    getPollResults
 }

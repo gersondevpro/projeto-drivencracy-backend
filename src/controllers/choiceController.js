@@ -8,7 +8,7 @@ async function postChoice(req, res) {
             title,
             pollId
         });
-        return res.sendStatus(201);
+        return res.status(201).send(req.body);
 
     } catch (err) {
         console.log(err);
